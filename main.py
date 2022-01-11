@@ -14,9 +14,13 @@ y_margin = 2
 x_pad = 22
 y_pad = 4
 
-ace_hearts = card.image_at((x_margin, y_margin, 43, 60))
+#ace_hearts = card.image_at((x_margin, y_margin, 43, 60))
 #card_list = card.load_grid_images(4, 14, x_margin, x_pad, y_margin, y_pad)
-print(ace_hearts)
+#print(ace_hearts)
+
+run_rt_list = thing.load_grid_images(1, 8, x_margin, x_pad, y_margin, y_pad, width, height, -1)
+run_lft_list = [pg.transform.flip(player, True, False) for player in run_rt_list]
+print(run_rt_list)
 
 playing = True
 
@@ -34,8 +38,6 @@ while playing:
                playing == False
 
    screen.fill(BLACK)
-
-   screen.blit(ace_hearts, (100, 100))
 
    pg.display.flip()
 
