@@ -9,21 +9,27 @@ screen = pg.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 pg.display.set_caption("Platformer Game")
 
 floor = sprites.SpriteSheet("images/sheet.png")
+characters = sprites.SpriteSheet("images/characters.png")
+
 x_margin = 112
 y_margin = 0
 x_pad = 0
 y_pad = 0
-width = 0
-height = 0
 
-# ace_hearts = card.image_at((x_margin, y_margin, 43, 60))
-# card_list = card.load_grid_images(4, 14, x_margin, x_pad, y_margin, y_pad)
-# print(ace_hearts)
+width = 20
+height = 27
 
-test = floor.image_at((x_margin + 16 * 1, y_margin, 16, 16), -1)
-# run_rt_list = floor.load_grid_images(7, 10, x_margin, x_pad, y_margin, y_pad, width, height)
-# run_lft_list = [pg.transform.flip(player, True, False) for player in run_rt_list]
-print(test)
+player_x = 6
+player_y = 69
+player_x_pad = 12
+player_y_pad = 0
+
+#test = floor.image_at((x_margin + 16 * 1, y_margin, 16, 16), -1)
+
+run_rt_list = characters.load_grid_images(1, 23, player_x, player_x_pad, player_y, player_y_pad, width, height, -1)
+run_lft_list = [pg.transform.flip(characters, True, False) for characters in run_rt_list]
+
+print(run_rt_list)
 
 playing = True
 
@@ -75,6 +81,13 @@ while playing:
     screen.blit(
         pg.transform.scale(floor.image_at((x_margin + 16 * 2, y_margin + 16, 16, 16), (255, 255, 255)),
                            [75, 75]), [75 * 7, 525])
+
+    counter = -1
+    for player in run_rt_list:
+            counter += 1
+            screen.blit(
+                pg.transform.scale(player, [60, 81]), [75 + 75 * counter, 0])
+
 
 
 
