@@ -25,7 +25,6 @@ class SpriteSheet:
         if colorkey is not None:
             if colorkey is -1:
                 colorkey = image.get_at((0,0))
-                print(colorkey)
             image.set_colorkey(colorkey, pygame.RLEACCEL)
         return image
 
@@ -75,3 +74,9 @@ class SpriteSheet:
                 sprite_rects.append(sprite_rect)
 
         return self.images_at(sprite_rects, colorkey)
+
+    class Walls:
+
+        def __init__(self):
+
+            pass
