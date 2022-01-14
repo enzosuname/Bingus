@@ -1,12 +1,19 @@
 import pygame as pg
+import pygame.sprite
+
 import sprites
 from settings import *
+from sprites import Player
 
 pg.init()
 
 # Set Base Screen
 screen = pg.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 pg.display.set_caption("Platformer Game")
+
+# Groups
+
+player_group = pygame.sprite.Group()
 
 floor = sprites.SpriteSheet("images/sheet.png")
 characters = sprites.SpriteSheet("images/characters.png")
@@ -19,7 +26,7 @@ y_pad = 0
 width = 20
 height = 27
 
-player_x = 6
+player_x = 5
 player_y = 69
 player_x_pad = 12
 player_y_pad = 0
@@ -29,7 +36,10 @@ player_y_pad = 0
 run_rt_list = characters.load_grid_images(1, 23, player_x, player_x_pad, player_y, player_y_pad, width, height, -1)
 run_lft_list = [pg.transform.flip(characters, True, False) for characters in run_rt_list]
 
-print(run_rt_list)
+# Player ?
+player = Player(run_rt_list)
+player_group.add(player)
+
 
 playing = True
 
@@ -47,6 +57,10 @@ while playing:
                 playing == False
 
     screen.fill(SKY)
+
+    player_group.draw(screen)
+
+    player_group.update()
 
     for val in range(0, 4):
         for layer in range(8, 11):
@@ -82,11 +96,11 @@ while playing:
         pg.transform.scale(floor.image_at((x_margin + 16 * 2, y_margin + 16, 16, 16), (255, 255, 255)),
                            [75, 75]), [75 * 7, 525])
 
-    counter = -1
-    for player in run_rt_list:
-            counter += 1
-            screen.blit(
-                pg.transform.scale(player, [60, 81]), [75 + 75 * counter, 0])
+    # counter = -1
+    # for player in run_rt_list:
+    #         counter += 1
+    #         screen.blit(
+    #             pg.transform.scale(player, [37.5, 50.625]), [37.5 * counter, 475])
 
 
 

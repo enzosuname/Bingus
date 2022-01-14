@@ -4,6 +4,8 @@
 # Note: When calling images_at the rect is the format:
 # (x, y, x + offset, y + offset)
 
+from settings import *
+
 import pygame
 
 class SpriteSheet:
@@ -75,14 +77,47 @@ class SpriteSheet:
 
         return self.images_at(sprite_rects, colorkey)
 
-    class Walls:
+class Walls:
 
-        def __init__(self):
+    def __init__(self):
 
-            pass
+        pass
 
-    class Player:
+class Player(pygame.sprite.Sprite):
 
-        def __init__(self):
+    def __init__(self, image_path):
+        pygame.sprite.Sprite.__init__(self)
 
-            pass
+        self.run_rt_list = image_path
+        self.image = self.run_rt_list[0]
+        self.rect = self.image.get_rect()
+        self.rect.x = self.rect.width
+        self.rect.y = WIN_HEIGHT - 75
+
+        self.change_x = 0
+        self.change_y = 0
+
+    def update(self):
+        self.rect.x += self.change_x
+        self.rect.y += self.change_y
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_RIGHT]:
+            if self.rect.x <= WIN_WIDTH:
+                self.change_x = 4
+        elif keys[pygame.K_LEFT]:
+            if self.rect.x >= 0:
+                self.change_x = -4
+        else:
+            self.change_x = 0
+
+        # now = g.time.get_ticks()
+        # if now - self.prev_update > self.framerate:
+        #     self.prev_update = now
+        #     self.frame += 1
+        # if self.frame == 4:
+        #     pass
+        # else:
+        #     self.image = image_path[self.frame]
+        #     self.rect = self.image.get_rect()
+        #     self.rect.center = self.kill_center
