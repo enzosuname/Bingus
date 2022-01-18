@@ -121,3 +121,206 @@ class Player(pygame.sprite.Sprite):
         #     self.image = image_path[self.frame]
         #     self.rect = self.image.get_rect()
         #     self.rect.center = self.kill_center
+
+class Layout:
+    def __init__(self, level_layout, tile_size):
+        tile_sheet = SpriteSheet("images/sheet.png")
+        rock_green1 = tile_sheet.image_at((112, 0, 16, 16), (255, 255, 255))
+        rock_green1 = pg.transform.scale(rock_green1, (tile_size, tile_size))
+        rock_green2 = tile_sheet.image_at((112 + 16, 0, 16, 16), (255, 255, 255))
+        rock_green2 = pg.transform.scale(rock_green2, (tile_size, tile_size))
+        rock_green3 = tile_sheet.image_at((112 + 16 * 2, 0, 16, 16), (255, 255, 255))
+        rock_green3 = pg.transform.scale(rock_green3, (tile_size, tile_size))
+        rock_green_left = tile_sheet.image_at((112 + 16, 16, 16, 16), (255, 255, 255))
+        rock_green_left = pg.transform.scale(rock_green_left, (tile_size, tile_size))
+        rock_green_right = tile_sheet.image_at((112 + 16 * 2, 16, 16, 16), (255, 255, 255))
+        rock_green_right = pg.transform.scale(rock_green_right, (tile_size, tile_size))
+        grey_rock_green1 = tile_sheet.image_at((112, 16 * 2, 16, 16), (255, 255, 255))
+        grey_rock_green1 = pg.transform.scale(grey_rock_green1, (tile_size, tile_size))
+        grey_rock_green2 = tile_sheet.image_at((112 + 16, 16 * 2, 16, 16), (255, 255, 255))
+        grey_rock_green2 = pg.transform.scale(grey_rock_green2, (tile_size, tile_size))
+        grey_rock_green3 = tile_sheet.image_at((112 + 16 * 2, 16 * 2, 16, 16), (255, 255, 255))
+        grey_rock_green3 = pg.transform.scale(grey_rock_green3, (tile_size, tile_size))
+        grey_rock_green_left = tile_sheet.image_at((112 + 16, 16 * 3, 16, 16), (255, 255, 255))
+        grey_rock_green_left = pg.transform.scale(grey_rock_green_left, (tile_size, tile_size))
+        grey_rock_green_right = tile_sheet.image_at((112 + 16 * 2, 16 * 3, 16, 16), (255, 255, 255))
+        grey_rock_green_right = pg.transform.scale(grey_rock_green_right, (tile_size, tile_size))
+        rocky = tile_sheet.image_at((112, 16, 16, 16), (255, 255, 255))
+        rocky = pg.transform.scale(rocky, (tile_size, tile_size))
+        grey_rocky = tile_sheet.image_at((112, 16 * 3, 16, 16), (255, 255, 255))
+        grey_rocky = pg.transform.scale(grey_rocky, (tile_size, tile_size))
+        rock_lwall = tile_sheet.image_at((112 + 16 * 3, 16, 16, 16), (255, 255, 255))
+        rock_lwall = pg.transform.scale(rock_lwall, (tile_size, tile_size))
+        rock_rwall = tile_sheet.image_at((112 + 16 * 5, 16, 16, 16), (255, 255, 255))
+        rock_rwall = pg.transform.scale(rock_rwall, (tile_size, tile_size))
+        rock_left = tile_sheet.image_at((112 + 16 * 3, 0, 16, 16), (255, 255, 255))
+        rock_left = pg.transform.scale(rock_left, (tile_size, tile_size))
+        rock_right = tile_sheet.image_at((112 + 16 * 5, 0, 16, 16), (255, 255, 255))
+        rock_right = pg.transform.scale(rock_right, (tile_size, tile_size))
+        rock_floor = tile_sheet.image_at((112 + 16 * 4, 0, 16, 16), (255, 255, 255))
+        rock_floor = pg.transform.scale(rock_floor, (tile_size, tile_size))
+        grey_rock_lwall = tile_sheet.image_at((112 + 16 * 3, 16 * 3, 16, 16), (255, 255, 255))
+        grey_rock_lwall = pg.transform.scale(grey_rock_lwall, (tile_size, tile_size))
+        grey_rock_rwall = tile_sheet.image_at((112 + 16 * 5, 16 * 3, 16, 16), (255, 255, 255))
+        grey_rock_rwall = pg.transform.scale(grey_rock_rwall, (tile_size, tile_size))
+        grey_rock_left = tile_sheet.image_at((112 + 16 * 3, 16 * 2, 16, 16), (255, 255, 255))
+        grey_rock_left = pg.transform.scale(grey_rock_left, (tile_size, tile_size))
+        grey_rock_right = tile_sheet.image_at((112 + 16 * 5, 16 * 2, 16, 16), (255, 255, 255))
+        grey_rock_right = pg.transform.scale(grey_rock_right, (tile_size, tile_size))
+        grey_rock_floor = tile_sheet.image_at((112 + 16 * 4, 16 * 2, 16, 16), (255, 255, 255))
+        grey_rock_floor = pg.transform.scale(grey_rock_floor, (tile_size, tile_size))
+        inside = tile_sheet.image_at((112 + 16 * 4, 16, 16, 16), (255, 255, 255))
+        inside = pg.transform.scale(inside, (tile_size, tile_size))
+
+
+        self.tile_list = []
+
+        for i, row in enumerate(level_layout):
+            for j, col in enumerate(row):
+                x_val = j * tile_size
+                y_val = i * tile_size
+
+                if col == "1":
+                    img_rect = rock_green1.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (rock_green1, img_rect)
+                    self.tile_list.append(tile)
+                if col == "2":
+                    img_rect = rock_green2.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (rock_green2, img_rect)
+                    self.tile_list.append(tile)
+                if col == "3":
+                    img_rect = rock_green3.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (rock_green3, img_rect)
+                    self.tile_list.append(tile)
+                if col == "L":
+                    img_rect = rock_green_left.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (rock_green_left, img_rect)
+                    self.tile_list.append(tile)
+                if col == "R":
+                    img_rect = rock_green_right.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (rock_green_right, img_rect)
+                    self.tile_list.append(tile)
+                if col == "4":
+                    img_rect = grey_rock_green1.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grey_rock_green1, img_rect)
+                    self.tile_list.append(tile)
+                if col == "5":
+                    img_rect = grey_rock_green2.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grey_rock_green2, img_rect)
+                    self.tile_list.append(tile)
+                if col == "6":
+                    img_rect = grey_rock_green3.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grey_rock_green3, img_rect)
+                    self.tile_list.append(tile)
+                if col == "l":
+                    img_rect = grey_rock_green_left.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grey_rock_green_left, img_rect)
+                    self.tile_list.append(tile)
+                if col == "r":
+                    img_rect = grey_rock_green_right.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grey_rock_green_right, img_rect)
+                    self.tile_list.append(tile)
+                if col == "U":
+                    img_rect = rocky.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (rocky, img_rect)
+                    self.tile_list.append(tile)
+                if col == "u":
+                    img_rect = grey_rocky.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grey_rocky, img_rect)
+                    self.tile_list.append(tile)
+                if col == "N":
+                    img_rect = rock_lwall.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (rock_lwall, img_rect)
+                    self.tile_list.append(tile)
+                if col == "M":
+                    img_rect = rock_rwall.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (rock_rwall, img_rect)
+                    self.tile_list.append(tile)
+                if col == "A":
+                    img_rect = rock_left.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (rock_left, img_rect)
+                    self.tile_list.append(tile)
+                if col == "D":
+                    img_rect = rock_right.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (rock_right, img_rect)
+                    self.tile_list.append(tile)
+                if col == "n":
+                    img_rect = grey_rock_lwall.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grey_rock_lwall, img_rect)
+                    self.tile_list.append(tile)
+                if col == "m":
+                    img_rect = grey_rock_rwall.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grey_rock_rwall, img_rect)
+                    self.tile_list.append(tile)
+                if col == "a":
+                    img_rect = grey_rock_left.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grey_rock_left, img_rect)
+                    self.tile_list.append(tile)
+                if col == "d":
+                    img_rect = grey_rock_right.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grey_rock_right, img_rect)
+                    self.tile_list.append(tile)
+                if col == "F":
+                    img_rect = rock_floor.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (rock_floor, img_rect)
+                    self.tile_list.append(tile)
+                if col == "f":
+                    img_rect = rock_floor.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grey_rock_floor, img_rect)
+                    self.tile_list.append(tile)
+                if col == "-":
+                    img_rect = inside.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (inside, img_rect)
+                    self.tile_list.append(tile)
+                elif col == "0":
+                    pass
+
+    def draw(self, display):
+        for tile in self.tile_list:
+            display.blit(tile[0], tile[1])
