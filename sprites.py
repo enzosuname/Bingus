@@ -104,14 +104,14 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_RIGHT]:
             if self.rect.x <= WIN_WIDTH:
-                self.change_x = 4
+                self.change_x = 2
         elif keys[pygame.K_LEFT]:
             if self.rect.x >= 0:
-                self.change_x = -4
+                self.change_x = -2
         else:
             self.change_x = 0
 
-        # now = g.time.get_ticks()
+        # now = pygame.time.get_ticks()
         # if now - self.prev_update > self.framerate:
         #     self.prev_update = now
         #     self.frame += 1
@@ -171,13 +171,21 @@ class Layout:
         grey_rock_floor = pg.transform.scale(grey_rock_floor, (tile_size, tile_size))
         inside = tile_sheet.image_at((112 + 16 * 4, 16, 16, 16), (255, 255, 255))
         inside = pg.transform.scale(inside, (tile_size, tile_size))
+        rock_pillar_top = tile_sheet.image_at((112 + 16 * 6, 0, 16, 16), (255, 255, 255))
+        rock_pillar_top = pg.transform.scale(rock_pillar_top, (tile_size, tile_size))
+        rock_pillar = tile_sheet.image_at((112 + 16 * 6, 16, 16, 16), (255, 255, 255))
+        rock_pillar = pg.transform.scale(rock_pillar, (tile_size, tile_size))
+        grey_rock_pillar_top = tile_sheet.image_at((112 + 16 * 6, 16 * 2, 16, 16), (255, 255, 255))
+        grey_rock_pillar_top = pg.transform.scale(grey_rock_pillar_top, (tile_size, tile_size))
+        grey_rock_pillar = tile_sheet.image_at((112 + 16 * 6, 16 * 3, 16, 16), (255, 255, 255))
+        grey_rock_pillar = pg.transform.scale(grey_rock_pillar, (tile_size, tile_size))
 
 
         self.tile_list = []
 
         for i, row in enumerate(level_layout):
             for j, col in enumerate(row):
-                x_val = j * tile_size
+                x_val = j * tile_size // 2
                 y_val = i * tile_size
 
                 if col == "1":
@@ -317,6 +325,30 @@ class Layout:
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (inside, img_rect)
+                    self.tile_list.append(tile)
+                if col == "A":
+                    img_rect = inside.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (rock_pillar_top, img_rect)
+                    self.tile_list.append(tile)
+                if col == "I":
+                    img_rect = inside.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (rock_pillar, img_rect)
+                    self.tile_list.append(tile)
+                if col == "a":
+                    img_rect = inside.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grey_rock_pillar_top, img_rect)
+                    self.tile_list.append(tile)
+                if col == "i":
+                    img_rect = inside.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grey_rock_pillar, img_rect)
                     self.tile_list.append(tile)
                 elif col == "0":
                     pass
