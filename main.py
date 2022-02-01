@@ -34,7 +34,6 @@ player_y_pad = 0
 #test = floor.image_at((x_margin + 16 * 1, y_margin, 16, 16), -1)
 
 run_rt_list = characters.load_grid_images(1, 23, player_x, player_x_pad, player_y, player_y_pad, width, height, -1)
-run_lft_list = [pg.transform.flip(characters, True, False) for characters in run_rt_list]
 
 # Player ?
 player = Player(run_rt_list)
@@ -64,42 +63,6 @@ while playing:
     player_group.draw(screen)
 
     player_group.update()
-
-    # for val in range(0, 4):
-    #     for layer in range(8, 11):
-    #         screen.blit(
-    #             pg.transform.scale(floor.image_at((x_margin, y_margin + 16*3, 16, 16), (255, 255, 255)),
-    #                             [TILE_SIZE, TILE_SIZE]), [75 * layer, WIN_HEIGHT - TILE_SIZE - 75 * val])
-    #
-    # for val in range(0, 4):
-    #     screen.blit(
-    #         pg.transform.scale(floor.image_at((x_margin + 16 * 3, y_margin + 16 * 3, 16, 16), (255, 255, 255)),
-    #                            [TILE_SIZE, TILE_SIZE]), [75 * 7, WIN_HEIGHT - TILE_SIZE - 75 * val])
-    #
-    # screen.blit(
-    #     pg.transform.scale(floor.image_at((x_margin + 16, y_margin + 16 * 3, 16, 16), (255, 255, 255)),
-    #                        [TILE_SIZE, TILE_SIZE]), [75 * 7, WIN_HEIGHT - TILE_SIZE - 75 * 4])
-    #
-    # for val in range(0, 3):
-    #     screen.blit(
-    #         pg.transform.scale(floor.image_at((x_margin + 16, y_margin + 16 * 2, 16, 16), (255, 255, 255)),
-    #                             [TILE_SIZE, TILE_SIZE]), [75 * 8 + 75 * val, WIN_HEIGHT - TILE_SIZE - 75 * 4])
-    #
-    #
-    # for additive in range(0, 3):
-    #     for val in range(1, 7):
-    #         screen.blit(
-    #             pg.transform.scale(floor.image_at((x_margin + 16 * additive, y_margin, 16, 16), (255, 255, 255)),
-    #                                [TILE_SIZE, TILE_SIZE]), [75 * val, WIN_HEIGHT - TILE_SIZE])
-    #
-    # screen.blit(
-    #     pg.transform.scale(floor.image_at((x_margin + 16, y_margin + 16, 16, 16), (255, 255, 255)),
-    #                        [TILE_SIZE, TILE_SIZE]), [75 * 0, WIN_HEIGHT - TILE_SIZE])
-    # screen.blit(
-    #     pg.transform.scale(floor.image_at((x_margin + 16 * 2, y_margin + 16, 16, 16), (255, 255, 255)),
-    #                        [TILE_SIZE, TILE_SIZE]), [75 * 7, WIN_HEIGHT - TILE_SIZE])
-
-
 
     pg.display.flip()
 
