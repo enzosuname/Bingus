@@ -85,7 +85,7 @@ class Walls:
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, image_path):
+    def __init__(self, image_path, tilelist):
         pygame.sprite.Sprite.__init__(self)
 
         self.run_rt_list = image_path
@@ -94,6 +94,8 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.rect.width
         self.rect.y = WIN_HEIGHT - 75*2 - 27
+
+        self.tile_list = tilelist
 
         self.prev_update = pygame.time.get_ticks()
         self.frame = 0
@@ -198,7 +200,6 @@ class Layout:
         grey_rock_pillar_top = pg.transform.scale(grey_rock_pillar_top, (tile_size, tile_size))
         grey_rock_pillar = tile_sheet.image_at((112 + 16 * 6, 16 * 3, 16, 16), (255, 255, 255))
         grey_rock_pillar = pg.transform.scale(grey_rock_pillar, (tile_size, tile_size))
-
 
         self.tile_list = []
 

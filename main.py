@@ -31,14 +31,14 @@ player_y = 69
 player_x_pad = 12
 player_y_pad = 0
 
-#test = floor.image_at((x_margin + 16 * 1, y_margin, 16, 16), -1)
+layout = Layout(LAYOUT, TILE_SIZE)
 
 run_rt_list = characters.load_grid_images(1, 23, player_x, player_x_pad, player_y, player_y_pad, width, height, -1)
 
 # Player ?
-player = Player(run_rt_list)
+player = Player(run_rt_list, layout.tile_list)
 player_group.add(player)
-layout = Layout(LAYOUT, TILE_SIZE)
+
 
 
 playing = True
