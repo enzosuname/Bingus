@@ -92,8 +92,8 @@ class Player(pygame.sprite.Sprite):
         self.run_lft_list = [pg.transform.flip(characters, True, False) for characters in image_path]
         self.image = self.run_rt_list[0]
         self.rect = self.image.get_rect()
-        self.rect.x = self.rect.width
-        self.rect.y = WIN_HEIGHT - 75*2 - 27
+        self.rect.x = self.rect.width + 250
+        self.rect.y = WIN_HEIGHT - 75*2 - 26
 
         self.tile_list = tilelist
 
@@ -140,6 +140,34 @@ class Player(pygame.sprite.Sprite):
 
         if not self.jumping:
             self.change_y = 0
+
+
+
+
+        for tile in self.tile_list:
+            # see if any tile rect collides with player rect in horiz direction, notice the addition of dx to rect.x
+            if tile[1].colliderect(self.rect.x + self.change_x,
+                                   self.rect.y,
+                                   self.rect.width,
+                                   self.rect.height):
+                self.change_x = 0
+
+            # see if any tile rect collides with player rect in vert direction, notice the addition of dy to rect.y
+            if tile[1].colliderect(self.rect.x,
+                                   self.rect.y + self.change_y,
+                                   self.rect.width,
+                                   self.rect.height):
+
+                # collision b/w bottom of platform and top of player
+                if self.change_y < 0:
+                    # allow the player to move up closer and closer to platform
+                    self.change_y = tile[1].bottom - self.rect.top
+
+                # collision b/w top of platform and bottom of player
+                elif self.change_y >= 0:
+                    # allow the player to move down closer and closer to platform
+                    self.change_y = tile[1].top - self.rect.bottom
+                    self.jumping = False
 
 
 
