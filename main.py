@@ -11,33 +11,15 @@ pg.init()
 screen = pg.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 pg.display.set_caption("Platformer Game")
 
-# Groups
-
-player_group = pygame.sprite.Group()
-
 floor = sprites.SpriteSheet("images/sheet.png")
-characters = sprites.SpriteSheet("images/characters.png")
 
-x_margin = 112
-y_margin = 0
-x_pad = 0
-y_pad = 0
-
-width = 20
-height = 27
-
-player_x = 5
-player_y = 69
-player_x_pad = 12
-player_y_pad = 0
+# Groups
 
 layout = Layout(LAYOUT, TILE_SIZE)
 
-run_rt_list = characters.load_grid_images(1, 23, player_x, player_x_pad, player_y, player_y_pad, width, height, -1)
-
-# Player ?
-player = Player(run_rt_list, layout.tile_list)
-player_group.add(player)
+# run_rt_list = characters.load_grid_images(1, 23, player_x, player_x_pad, player_y, player_y_pad, width, height, -1)
+# player = Player(run_rt_list, layout.tile_list)
+# player_group.add(player)
 
 
 
@@ -60,9 +42,7 @@ while playing:
 
     layout.draw(screen)
 
-    player_group.draw(screen)
-
-    player_group.update()
+    layout.update()
 
     pg.display.flip()
 

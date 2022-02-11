@@ -93,7 +93,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.run_rt_list[0]
         self.rect = self.image.get_rect()
         self.rect.x = self.rect.width + 250
-        self.rect.y = WIN_HEIGHT - 75*2 - 26
+        self.rect.y = WIN_HEIGHT - 300 #- 75*2 - 26
 
         self.tile_list = tilelist
 
@@ -173,6 +173,13 @@ class Player(pygame.sprite.Sprite):
 
 class Layout:
     def __init__(self, level_layout, tile_size):
+        self.tile_list = []
+        self.player_group = pygame.sprite.Group()
+
+        characters = SpriteSheet("images/characters.png")
+        run_rt_list = characters.load_grid_images(1, 23, player_x, player_x_pad, player_y, player_y_pad, width, height,
+                                                  -1)
+
         tile_sheet = SpriteSheet("images/sheet.png")
         rock_green1 = tile_sheet.image_at((112, 0, 16, 16), (255, 255, 255))
         rock_green1 = pg.transform.scale(rock_green1, (tile_size, tile_size))
@@ -228,8 +235,6 @@ class Layout:
         grey_rock_pillar_top = pg.transform.scale(grey_rock_pillar_top, (tile_size, tile_size))
         grey_rock_pillar = tile_sheet.image_at((112 + 16 * 6, 16 * 3, 16, 16), (255, 255, 255))
         grey_rock_pillar = pg.transform.scale(grey_rock_pillar, (tile_size, tile_size))
-
-        self.tile_list = []
 
         for i, row in enumerate(level_layout):
             for j, col in enumerate(row):
@@ -398,9 +403,33 @@ class Layout:
                     img_rect.y = y_val
                     tile = (grey_rock_pillar, img_rect)
                     self.tile_list.append(tile)
+                if col == "p":
+                    player = Player(run_rt_list, self.tile_list)
+                    player.rect.x = x_val
+                    player.rect.y = y_val
+                    self.player_group.add(player)
                 elif col == "0":
                     pass
 
     def draw(self, display):
         for tile in self.tile_list:
             display.blit(tile[0], tile[1])
+
+        self.player_group.draw(display)
+
+    def update(self):
+        self.player_group.update()
+        self.camera()
+
+    def camera(self):
+        player = self.player_group.sprites()
+        if player[0].rect.x >= WIN_WIDTH - 100:
+            if player[0].change_x > 0:
+                player[0].change_x = 0
+            for tile in self.tile_list:
+                tile[1].x -= 2
+        if player[0].rect.x <= 100:
+            if player[0].change_x < 0:
+                player[0].change_x = 0
+            for tile in self.tile_list:
+                tile[1].x += 2
