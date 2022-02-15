@@ -103,10 +103,13 @@ class Player(pygame.sprite.Sprite):
 
         self.change_x = 0
         self.jumping = False
-        self.falling = False
-        self.change_y = 0
+        self.falling = True
+        self.change_y = 1
+        self.counter = 0
 
     def update(self):
+        print(self.jumping,self.falling)
+        print(self.counter)
         self.rect.x += self.change_x
         self.rect.y += self.change_y
         now = pygame.time.get_ticks()
@@ -135,10 +138,17 @@ class Player(pygame.sprite.Sprite):
             self.change_x = 0
 
         if keys[pygame.K_SPACE] and not self.jumping and not self.falling:
-            self.change_y = -2
             self.jumping = True
+            self.change_y = -2
 
-        if not self.jumping:
+        while self.jumping:
+            self.counter += self.change_y
+            if self.counter <= -800:
+                self.jumping = False
+                #self.falling = True
+                self.counter = 0
+
+        if not self.jumping and not self.falling:
             self.change_y = 0
 
 
@@ -168,6 +178,7 @@ class Player(pygame.sprite.Sprite):
                     # allow the player to move down closer and closer to platform
                     self.change_y = tile[1].top - self.rect.bottom
                     self.jumping = False
+                    self.falling = False
 
 
 
@@ -423,13 +434,16 @@ class Layout:
 
     def camera(self):
         player = self.player_group.sprites()
+        keys = pygame.key.get_pressed()
         if player[0].rect.x >= WIN_WIDTH - 100:
             if player[0].change_x > 0:
                 player[0].change_x = 0
-            for tile in self.tile_list:
-                tile[1].x -= 2
+            if keys[pygame.K_RIGHT]:
+                for tile in self.tile_list:
+                    tile[1].x -= 2
         if player[0].rect.x <= 100:
             if player[0].change_x < 0:
                 player[0].change_x = 0
-            for tile in self.tile_list:
-                tile[1].x += 2
+            if keys[pygame.K_LEFT]:
+                for tile in self.tile_list:
+                    tile[1].x += 2
