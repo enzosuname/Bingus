@@ -110,8 +110,11 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         print(self.jumping,self.falling)
         print(self.counter)
+        print(self.change_y)
+
         self.rect.x += self.change_x
         self.rect.y += self.change_y
+
         now = pygame.time.get_ticks()
         keys = pygame.key.get_pressed()
         if keys[pygame.K_RIGHT]:
@@ -141,15 +144,19 @@ class Player(pygame.sprite.Sprite):
             self.jumping = True
             self.change_y = -2
 
-        while self.jumping:
-            self.counter += self.change_y
-            if self.counter <= -800:
-                self.jumping = False
-                #self.falling = True
-                self.counter = 0
+        # while self.jumping:
+        #     self.counter += self.change_y
+        #     if self.counter <= -800:
+        #         self.jumping = False
+        #         #self.falling = True
+        #         self.counter = 0
+
+        #while self.falling:
+            #self.change_y = .05
 
         if not self.jumping and not self.falling:
             self.change_y = 0
+        self.change_y = 1
 
 
 
@@ -174,11 +181,22 @@ class Player(pygame.sprite.Sprite):
                     self.change_y = tile[1].bottom - self.rect.top
 
                 # collision b/w top of platform and bottom of player
-                elif self.change_y >= 0:
+                elif self.change_y > 0:
                     # allow the player to move down closer and closer to platform
                     self.change_y = tile[1].top - self.rect.bottom
                     self.jumping = False
                     self.falling = False
+
+            # if not tile[1].colliderect(self.rect.x,
+            #
+            #                        self.rect.y + self.change_y,
+            #
+            #                        self.rect.width,
+            #
+            #                        self.rect.height):
+            #
+            #     self.falling = True
+            #     self.change_y = 1
 
 
 
