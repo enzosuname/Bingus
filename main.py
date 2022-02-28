@@ -3,7 +3,7 @@ import pygame.sprite
 
 import sprites
 from settings import *
-from sprites import Player, Layout
+from sprites import Player, Layout, Background
 
 pg.init()
 
@@ -16,6 +16,7 @@ floor = sprites.SpriteSheet("images/sheet.png")
 # Groups
 
 layout = Layout(LAYOUT, TILE_SIZE)
+background = Background(BACKGROUND, TILE_SIZE)
 
 # run_rt_list = characters.load_grid_images(1, 23, player_x, player_x_pad, player_y, player_y_pad, width, height, -1)
 # player = Player(run_rt_list, layout.tile_list)
@@ -39,6 +40,8 @@ while playing:
                 playing == False
 
     screen.fill(SKY)
+
+    background.draw
 
     layout.draw(screen)
 
