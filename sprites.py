@@ -120,6 +120,10 @@ class Player(pygame.sprite.Sprite):
         self.rect.x += self.change_x
         self.rect.y += self.change_y
 
+        if not self.jumping:
+            self.change_y = 1
+            self.falling = True
+
         now = pygame.time.get_ticks()
         keys = pygame.key.get_pressed()
         if keys[pygame.K_RIGHT]:
@@ -145,6 +149,33 @@ class Player(pygame.sprite.Sprite):
         else:
             self.change_x = 0
 
+        for tile in self.tile_list:
+            # see if any tile rect collides with player rect in horiz direction, notice the addition of dx to rect.x
+            if tile[1].colliderect(self.rect.x + self.change_x,
+                                   self.rect.y,
+                                   self.rect.width,
+                                   self.rect.height):
+                self.change_x = 0
+
+            # see if any tile rect collides with player rect in vert direction, notice the addition of dy to rect.y
+            if tile[1].colliderect(self.rect.x,
+                                   self.rect.y + self.change_y,
+                                   self.rect.width,
+                                   self.rect.height):
+
+                # collision b/w bottom of platform and top of player
+                if self.change_y < 0:
+                    # allow the player to move up closer and closer to platform
+                    self.change_y = tile[1].bottom - self.rect.top
+
+                # collision b/w top of platform and bottom of player
+                elif self.change_y > 0:
+                    # allow the player to move down closer and closer to platform
+                    self.change_y = tile[1].top - self.rect.bottom
+                    self.change_y = 0
+                    self.jumping = False
+                    self.falling = False
+
         if keys[pygame.K_SPACE] and not self.jumping and not self.falling:
             self.jumping = True
             self.change_y = -2
@@ -156,53 +187,6 @@ class Player(pygame.sprite.Sprite):
             self.change_y = 1
             self.counter = 0
             self.change_counter = 0
-            #self.falling = True
-
-        # if not self.jumping and not self.falling:
-        #     self.change_y = 0
-        # self.change_y = 1
-        #
-        #
-        #
-        #
-        # for tile in self.tile_list:
-        #     # see if any tile rect collides with player rect in horiz direction, notice the addition of dx to rect.x
-        #     if tile[1].colliderect(self.rect.x + self.change_x,
-        #                            self.rect.y,
-        #                            self.rect.width,
-        #                            self.rect.height):
-        #         self.change_x = 0
-        #
-        #     # see if any tile rect collides with player rect in vert direction, notice the addition of dy to rect.y
-        #     if tile[1].colliderect(self.rect.x,
-        #                            self.rect.y + self.change_y,
-        #                            self.rect.width,
-        #                            self.rect.height):
-        #
-        #         # collision b/w bottom of platform and top of player
-        #         if self.change_y < 0:
-        #             # allow the player to move up closer and closer to platform
-        #             self.change_y = tile[1].bottom - self.rect.top
-        #
-        #         # collision b/w top of platform and bottom of player
-        #         elif self.change_y > 0:
-        #             # allow the player to move down closer and closer to platform
-        #             self.change_y = tile[1].top - self.rect.bottom
-        #             self.jumping = False
-        #             self.falling = False
-
-            # if not tile[1].colliderect(self.rect.x,
-            #
-            #                        self.rect.y + self.change_y,
-            #
-            #                        self.rect.width,
-            #
-            #                        self.rect.height):
-            #
-            #     self.falling = True
-            #     self.change_y = 1
-
-
 
 class Layout:
     def __init__(self, level_layout, tile_size):
@@ -469,6 +453,13 @@ class Layout:
             if keys[pygame.K_LEFT]:
                 for tile in self.tile_list:
                     tile[1].x += 2
+
+        # for tile in self.tile_list:
+        #     if tile[1].colliderect(player.rect.x + player.change_x,
+        #                            tile.rect.y,
+        #                            tile.rect.width,
+        #                            tile.rect.height):
+        #         self.change_x = 0
 
 class Background:
     def __init__(self, level_layout, tile_size):
