@@ -113,10 +113,6 @@ class Player(pygame.sprite.Sprite):
         self.change_counter = 0
 
     def update(self):
-        print(self.jumping,self.falling)
-        print(self.change_y)
-        print(self.counter)
-
         self.rect.x += self.change_x
         self.rect.y += self.change_y
 
@@ -192,6 +188,7 @@ class Layout:
     def __init__(self, level_layout, tile_size):
         self.tile_list = []
         self.player_group = pygame.sprite.Group()
+        self.change_x = 0
 
         characters = SpriteSheet("images/characters.png")
         run_rt_list = characters.load_grid_images(1, 23, player_x, player_x_pad, player_y, player_y_pad, width, height,
@@ -441,25 +438,43 @@ class Layout:
     def camera(self):
         player = self.player_group.sprites()
         keys = pygame.key.get_pressed()
+        print(self.change_x)
+
+        for tile in self.tile_list:
+            if tile[1].colliderect(player[0].rect.x + player[0].change_x,
+                                   player[0].rect.y,
+                                   player[0].rect.width,
+                                   player[0].rect.height):
+                self.change_x = 0
+                print('COLLIDE')
+                print('COLLIDE')
+                print('COLLIDE')
+                print('COLLIDE')
+                print('COLLIDE')
+                print('COLLIDE')
+                print('COLLIDE')
+            tile[1].x += self.change_x
+
+        if player[0].rect.x > 100 and player[0].rect.x < WIN_WIDTH - 100:
+            self.change_x = 0
+
         if player[0].rect.x >= WIN_WIDTH - 100:
             if player[0].change_x > 0:
                 player[0].change_x = 0
             if keys[pygame.K_RIGHT]:
-                for tile in self.tile_list:
-                    tile[1].x -= 2
+                self.change_x = -2
         if player[0].rect.x <= 100:
             if player[0].change_x < 0:
                 player[0].change_x = 0
             if keys[pygame.K_LEFT]:
-                for tile in self.tile_list:
-                    tile[1].x += 2
+                self.change_x = 2
 
         # for tile in self.tile_list:
-        #     if tile[1].colliderect(player.rect.x + player.change_x,
-        #                            tile.rect.y,
-        #                            tile.rect.width,
-        #                            tile.rect.height):
-        #         self.change_x = 0
+        #     if tile[1].colliderect(player[0].rect.x + player[0].change_x,
+        #                            player[0].rect.y,
+        #                            player[0].rect.width,
+        #                            player[0].rect.height):
+        #         tile[1].x += 0
 
 class Background:
     def __init__(self, level_layout, tile_size):

@@ -41,7 +41,7 @@ while playing:
 
     screen.fill(SKY)
 
-    background.draw
+    #background.draw
 
     layout.draw(screen)
 
