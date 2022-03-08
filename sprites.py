@@ -438,7 +438,35 @@ class Layout:
     def camera(self):
         player = self.player_group.sprites()
         keys = pygame.key.get_pressed()
-        print(self.change_x)
+        for tile in self.tile_list:
+            if tile[1].colliderect(player[0].rect.x + player[0].change_x,
+                                   player[0].rect.y,
+                                   player[0].rect.width,
+                                   player[0].rect.height):
+                self.change_x = 0
+                Background.change_x = 0
+
+
+        if player[0].rect.x > 100 and player[0].rect.x < WIN_WIDTH - 100:
+            self.change_x = 0
+            Background.change_x = 0
+
+        if player[0].rect.x >= WIN_WIDTH - 100:
+            if player[0].change_x > 0:
+                player[0].change_x = 0
+            if keys[pygame.K_RIGHT]:
+                self.change_x = -2
+                Background.change_x = -2
+        if player[0].rect.x <= 100:
+            if player[0].change_x < 0:
+                player[0].change_x = 0
+            if keys[pygame.K_LEFT]:
+                self.change_x = 2
+                Background.change_x = 2
+        if not keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
+            self.change_x = 0
+            Background.change_x = 0
+
 
         for tile in self.tile_list:
             if tile[1].colliderect(player[0].rect.x + player[0].change_x,
@@ -446,40 +474,14 @@ class Layout:
                                    player[0].rect.width,
                                    player[0].rect.height):
                 self.change_x = 0
-                print('COLLIDE')
-                print('COLLIDE')
-                print('COLLIDE')
-                print('COLLIDE')
-                print('COLLIDE')
-                print('COLLIDE')
-                print('COLLIDE')
+        for tile in self.tile_list:
             tile[1].x += self.change_x
-
-        if player[0].rect.x > 100 and player[0].rect.x < WIN_WIDTH - 100:
-            self.change_x = 0
-
-        if player[0].rect.x >= WIN_WIDTH - 100:
-            if player[0].change_x > 0:
-                player[0].change_x = 0
-            if keys[pygame.K_RIGHT]:
-                self.change_x = -2
-        if player[0].rect.x <= 100:
-            if player[0].change_x < 0:
-                player[0].change_x = 0
-            if keys[pygame.K_LEFT]:
-                self.change_x = 2
-
-        # for tile in self.tile_list:
-        #     if tile[1].colliderect(player[0].rect.x + player[0].change_x,
-        #                            player[0].rect.y,
-        #                            player[0].rect.width,
-        #                            player[0].rect.height):
-        #         tile[1].x += 0
 
 class Background:
     def __init__(self, level_layout, tile_size):
         self.tile_list = []
         self.player_group = pygame.sprite.Group()
+        self.change_x = 0
 
         tile_sheet = SpriteSheet("images/sheet.png")
         rock_green1 = tile_sheet.image_at((112, 0, 16, 16), (255, 255, 255))
@@ -712,3 +714,10 @@ class Background:
             display.blit(tile[0], tile[1])
 
         self.player_group.draw(display)
+        self.camera()
+
+
+    def camera(self):
+        print(self.change_x)
+        for tile in self.tile_list:
+            tile[1].x += self.change_x
