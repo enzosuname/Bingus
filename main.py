@@ -15,17 +15,37 @@ floor = sprites.SpriteSheet("images/sheet.png")
 
 # Groups
 
-layout = Layout(LAYOUT, TILE_SIZE, False)
-background = Layout(BACKGROUND, TILE_SIZE, True)
-
-# run_rt_list = characters.load_grid_images(1, 23, player_x, player_x_pad, player_y, player_y_pad, width, height, -1)
-# player = Player(run_rt_list, layout.tile_list)
-# player_group.add(player)
+layout = Layout(LAYOUT, TILE_SIZE)
 
 
 playing = True
 
 clock = pg.time.Clock()
+
+
+def gameover():
+    screen = g.display.set_mode(SIZE)
+    clock = g.time.Clock()
+    running = True
+    while running:
+        for event in g.event.get():
+            if event.type == g.QUIT:
+                quit()
+            if event.type == g.KEYDOWN:
+                if event.key == g.K_r:
+                    running = False
+
+        screen.fill(SKY)
+        text = END.render(f"GAME OVER", True, RED)
+        screen.blit(text, [240, 400])
+        text = SCORE.render(f"If you wish to reset,", True, WHITE)
+        screen.blit(text, [85, 600])
+        text = SCORE.render(f"press the 'r' key", True, WHITE)
+        screen.blit(text, [125, 650])
+
+        g.display.flip()
+        clock.tick(FPS)
+
 
 while playing:
 
@@ -40,13 +60,12 @@ while playing:
 
     screen.fill(SKY)
 
-    background.draw(screen)
-
     layout.draw(screen)
 
-
-
     layout.update()
+
+    # if layout.Kill_Player() == False:
+    #     gameover()
 
     pg.display.flip()
 

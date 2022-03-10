@@ -117,7 +117,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.change_y
 
         if not self.jumping:
-            self.change_y = 1
+            self.change_y = 3.5
             self.falling = True
 
         now = pygame.time.get_ticks()
@@ -174,8 +174,8 @@ class Player(pygame.sprite.Sprite):
 
         if keys[pygame.K_SPACE] and not self.jumping and not self.falling:
             self.jumping = True
-            self.change_y = -2
-            self.change_counter = 1
+            self.change_y = -3
+            self.change_counter = 1.5
 
         self.counter += self.change_counter
         if self.counter > 50:
@@ -184,14 +184,12 @@ class Player(pygame.sprite.Sprite):
             self.counter = 0
             self.change_counter = 0
 
-
 class Layout:
-    def __init__(self, level_layout, tile_size, check):
+    def __init__(self, level_layout, tile_size):
         self.tile_list = []
         self.back_list = []
         self.player_group = pygame.sprite.Group()
         self.change_x = 0
-        self.check = check
 
         characters = SpriteSheet("images/characters.png")
         run_rt_list = characters.load_grid_images(1, 23, player_x, player_x_pad, player_y, player_y_pad, width, height,
@@ -263,244 +261,163 @@ class Layout:
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (rock_green1, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "2":
                     img_rect = rock_green2.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (rock_green2, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "3":
                     img_rect = rock_green3.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (rock_green3, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "L":
                     img_rect = rock_green_left.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (rock_green_left, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "R":
                     img_rect = rock_green_right.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (rock_green_right, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "4":
                     img_rect = grey_rock_green1.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grey_rock_green1, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "5":
                     img_rect = grey_rock_green2.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grey_rock_green2, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "6":
                     img_rect = grey_rock_green3.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grey_rock_green3, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "l":
                     img_rect = grey_rock_green_left.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grey_rock_green_left, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "r":
                     img_rect = grey_rock_green_right.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grey_rock_green_right, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "U":
                     img_rect = rocky.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (rocky, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "u":
                     img_rect = grey_rocky.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grey_rocky, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "N":
                     img_rect = rock_lwall.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (rock_lwall, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "M":
                     img_rect = rock_rwall.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (rock_rwall, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "A":
                     img_rect = rock_left.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (rock_left, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "D":
                     img_rect = rock_right.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (rock_right, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "n":
                     img_rect = grey_rock_lwall.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grey_rock_lwall, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.back_list.append(tile)
                 if col == "m":
                     img_rect = grey_rock_rwall.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grey_rock_rwall, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.back_list.append(tile)
                 if col == "a":
                     img_rect = grey_rock_left.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grey_rock_left, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "d":
                     img_rect = grey_rock_right.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grey_rock_right, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "F":
                     img_rect = rock_floor.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (rock_floor, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "f":
                     img_rect = rock_floor.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grey_rock_floor, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "-":
                     img_rect = inside.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (inside, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.back_list.append(tile)
                 if col == "A":
                     img_rect = inside.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (rock_pillar_top, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "I":
                     img_rect = inside.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (rock_pillar, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "a":
                     img_rect = inside.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grey_rock_pillar_top, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "i":
                     img_rect = inside.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grey_rock_pillar, img_rect)
-                    if self.check:
-                        self.back_list.append(tile)
-                    else:
-                        self.tile_list.append(tile)
+                    self.tile_list.append(tile)
                 if col == "p":
                     player = Player(run_rt_list, self.tile_list)
                     player.rect.x = x_val
@@ -508,6 +425,8 @@ class Layout:
                     self.player_group.add(player)
                 elif col == "0":
                     pass
+
+        print(self.back_list)
 
     def draw(self, display):
         for tile in self.tile_list:
@@ -531,18 +450,16 @@ class Layout:
                                    player[0].rect.height):
                 self.change_x = 0
 
-        if player[0].rect.x > 100 and player[0].rect.x < WIN_WIDTH - 100:
+        if player[0].rect.x > 200 and player[0].rect.x < WIN_WIDTH - 200:
             self.change_x = 0
 
-        if player[0].rect.x >= WIN_WIDTH - 100:
+        if player[0].rect.x >= WIN_WIDTH - 200:
             if player[0].change_x > 0:
                 player[0].change_x = 0
-            #if keys[pygame.K_RIGHT]:
                 self.change_x = -2
         if player[0].rect.x <= 100:
             if player[0].change_x < 0:
                 player[0].change_x = 0
-            #if keys[pygame.K_LEFT]:
                 self.change_x = 2
         if not keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
             self.change_x = 0
@@ -559,15 +476,6 @@ class Layout:
         for tile in self.back_list:
             tile[1].x += self.change_x
 
-        # def draw(self, display):
-        #     for tile in self.back_list:
-        #         display.blit(tile[0], tile[1])
-        #
-        #     self.player_group.draw(display)
-        #     self.camera()
-        #
-        #
-        # def camera(self):
-        #     print(self.change_x)
-        #     for tile in self.back_list:
-        #         tile[1].x += self.change_x
+    # def Kill_Player(self):
+    #     if Player.rect.y > WIN_HEIGHT + 75:
+    #         return False
