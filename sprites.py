@@ -183,16 +183,88 @@ class Player(pygame.sprite.Sprite):
             self.change_y = 1
             self.counter = 0
             self.change_counter = 0
+class Enemy(pygame.sprite.Sprite):
+    def __init__(self, image_path, tile_list):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.run_rt_list = image_path
+        self.run_lft_list = [pg.transform.flip(characters, True, False) for characters in image_path]
+        self.image = self.run_rt_list[0]
+        self.rect = self.image.get_rect()
+        self.rect.x = self.rect.width + 250
+        self.rect.y = WIN_HEIGHT - 300  # - 75*2 - 26
+
+        self.tile_list = tile_list
+
+        self.prev_update = pygame.time.get_ticks()
+        self.frame = 0
+        self.framerate = 100
+
+        self.change_x = 0
+        self.change_y = 1
+        self.falling = True
+        self.jumping = False
+
+    def update(self):
+        self.rect.x += self.change_x
+        self.rect.y += self.change_y
+
+        if not self.jumping:
+            self.change_y = 3.5
+            self.falling = True
+
+        now = pygame.time.get_ticks()
+
+        self.change_x = -.5
+        if now - self.prev_update > self.framerate:
+            self.prev_update = now
+            self.frame += 1
+            self.image = self.run_lft_list[self.frame]
+        if self.frame == 3:
+            self.frame = 0
+
+        if self.rect.x <= 0 or self.rect.x >= WIN_WIDTH:
+            self.change_x = 0
+
+        for tile in self.tile_list:
+            # see if any tile rect collides with player rect in horiz direction, notice the addition of dx to rect.x
+            if tile[1].colliderect(self.rect.x + self.change_x,
+                                   self.rect.y,
+                                   self.rect.width,
+                                   self.rect.height):
+                self.change_x = 0
+
+            # see if any tile rect collides with player rect in vert direction, notice the addition of dy to rect.y
+            if tile[1].colliderect(self.rect.x,
+                                   self.rect.y + self.change_y,
+                                   self.rect.width,
+                                   self.rect.height):
+
+                # collision b/w bottom of platform and top of player
+                if self.change_y < 0:
+                    # allow the player to move up closer and closer to platform
+                    self.change_y = tile[1].bottom - self.rect.top
+
+                # collision b/w top of platform and bottom of player
+                elif self.change_y > 0:
+                    # allow the player to move down closer and closer to platform
+                    self.change_y = tile[1].top - self.rect.bottom
+                    self.change_y = 0
+                    self.jumping = False
+                    self.falling = False
 
 class Layout:
     def __init__(self, level_layout, tile_size):
         self.tile_list = []
         self.back_list = []
         self.player_group = pygame.sprite.Group()
+        self.enemy_group = pygame.sprite.Group()
         self.change_x = 0
 
         characters = SpriteSheet("images/characters.png")
         run_rt_list = characters.load_grid_images(1, 23, player_x, player_x_pad, player_y, player_y_pad, width, height,
+                                                  -1)
+        run_enemy_list = characters.load_grid_images(1, 23, player_x, player_x_pad, 101, player_y_pad, width, height,
                                                   -1)
 
         tile_sheet = SpriteSheet("images/sheet.png")
@@ -423,6 +495,11 @@ class Layout:
                     player.rect.x = x_val
                     player.rect.y = y_val
                     self.player_group.add(player)
+                if col == "x":
+                    enemy = Enemy(run_enemy_list, self.tile_list)
+                    enemy.rect.x = x_val
+                    enemy.rect.y = y_val
+                    self.enemy_group.add(enemy)
                 elif col == "0":
                     pass
 
@@ -435,9 +512,11 @@ class Layout:
             display.blit(tile[0], tile[1])
 
         self.player_group.draw(display)
+        self.enemy_group.draw(display)
 
     def update(self):
         self.player_group.update()
+        self.enemy_group.update()
         self.camera()
 
     def camera(self):
@@ -475,7 +554,16 @@ class Layout:
             tile[1].x += self.change_x
         for tile in self.back_list:
             tile[1].x += self.change_x
+        for enemy in self.enemy_group:
+            enemy.rect.x += self.change_x
 
-    # def Kill_Player(self):
+    def Kill_Player(self):
+
+        if Player.colliderect(Enemy.rect.x + Enemy.change_x,
+                               Enemy.rect.y,
+                               Enemy.rect.width,
+                               Enemy.rect.height):
+            print("test")
     #     if Player.rect.y > WIN_HEIGHT + 75:
     #         return False
+

@@ -64,8 +64,7 @@ while playing:
 
     layout.update()
 
-    # if layout.Kill_Player() == False:
-    #     gameover()
+    layout.Kill_Player()
 
     pg.display.flip()
 
