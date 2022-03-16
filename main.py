@@ -17,22 +17,19 @@ floor = sprites.SpriteSheet("images/sheet.png")
 
 layout = Layout(LAYOUT, TILE_SIZE)
 
-
-playing = True
-
 clock = pg.time.Clock()
 
 
 def gameover():
-    screen = g.display.set_mode(SIZE)
-    clock = g.time.Clock()
+    screen = pg.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+    clock = pg.time.Clock()
     running = True
     while running:
-        for event in g.event.get():
-            if event.type == g.QUIT:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
                 quit()
-            if event.type == g.KEYDOWN:
-                if event.key == g.K_r:
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_r:
                     running = False
 
         screen.fill(SKY)
@@ -43,29 +40,34 @@ def gameover():
         text = SCORE.render(f"press the 'r' key", True, WHITE)
         screen.blit(text, [125, 650])
 
-        g.display.flip()
+        pg.display.flip()
         clock.tick(FPS)
 
+def play():
+    playing = True
 
-while playing:
+    while playing:
 
-    clock.tick(FPS)
+        clock.tick(FPS)
 
-    for event in pg.event.get():
-        if event.type == pg.QUIT:
-            playing = False
-        if event.type == pg.KEYDOWN:  # allow for q key to quit the game
-            if event.key == pg.K_q:
-                playing == False
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                playing = False
+            if event.type == pg.KEYDOWN:  # allow for q key to quit the game
+                if event.key == pg.K_q:
+                    playing == False
 
-    screen.fill(SKY)
+        screen.fill(SKY)
 
-    layout.draw(screen)
+        layout.draw(screen)
 
-    layout.update()
+        layout.update()
 
-    layout.Kill_Player()
+        if layout.Kill_Player() == False:
+            gameover()
 
-    pg.display.flip()
+        pg.display.flip()
+
+play()
 
 pg.quit()

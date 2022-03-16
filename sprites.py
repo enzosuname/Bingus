@@ -260,6 +260,7 @@ class Layout:
         self.player_group = pygame.sprite.Group()
         self.enemy_group = pygame.sprite.Group()
         self.change_x = 0
+        self.player = None
 
         characters = SpriteSheet("images/characters.png")
         run_rt_list = characters.load_grid_images(1, 23, player_x, player_x_pad, player_y, player_y_pad, width, height,
@@ -520,34 +521,34 @@ class Layout:
         self.camera()
 
     def camera(self):
-        player = self.player_group.sprites()
+        self.player = self.player_group.sprites()[0]
         keys = pygame.key.get_pressed()
         for tile in self.tile_list:
-            if tile[1].colliderect(player[0].rect.x + player[0].change_x,
-                                   player[0].rect.y,
-                                   player[0].rect.width,
-                                   player[0].rect.height):
+            if tile[1].colliderect(self.player.rect.x + self.player.change_x,
+                                   self.player.rect.y,
+                                   self.player.rect.width,
+                                   self.player.rect.height):
                 self.change_x = 0
 
-        if player[0].rect.x > 200 and player[0].rect.x < WIN_WIDTH - 200:
+        if self.player.rect.x > 200 and self.player.rect.x < WIN_WIDTH - 200:
             self.change_x = 0
 
-        if player[0].rect.x >= WIN_WIDTH - 200:
-            if player[0].change_x > 0:
-                player[0].change_x = 0
+        if self.player.rect.x >= WIN_WIDTH - 200:
+            if self.player.change_x > 0:
+                self.player.change_x = 0
                 self.change_x = -2
-        if player[0].rect.x <= 100:
-            if player[0].change_x < 0:
-                player[0].change_x = 0
+        if self.player.rect.x <= 100:
+            if self.player.change_x < 0:
+                self.player.change_x = 0
                 self.change_x = 2
         if not keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
             self.change_x = 0
 
         for tile in self.tile_list:
-            if tile[1].colliderect(player[0].rect.x + player[0].change_x,
-                                   player[0].rect.y,
-                                   player[0].rect.width,
-                                   player[0].rect.height):
+            if tile[1].colliderect(self.player.rect.x + self.player.change_x,
+                                   self.player.rect.y,
+                                   self.player.rect.width,
+                                   self.player.rect.height):
                 self.change_x = 0
 
         for tile in self.tile_list:
@@ -558,12 +559,8 @@ class Layout:
             enemy.rect.x += self.change_x
 
     def Kill_Player(self):
-
-        if Player.colliderect(Enemy.rect.x + Enemy.change_x,
-                               Enemy.rect.y,
-                               Enemy.rect.width,
-                               Enemy.rect.height):
-            print("test")
-    #     if Player.rect.y > WIN_HEIGHT + 75:
-    #         return False
+        if pygame.sprite.groupcollide(self.player_group, self.enemy_group, False, True):
+            return False
+        if self.player.rect.y > WIN_HEIGHT + 75:
+            return False
 
