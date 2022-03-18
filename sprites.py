@@ -78,12 +78,6 @@ class SpriteSheet:
 
         return self.images_at(sprite_rects, colorkey)
 
-
-class Walls:
-
-    def __init__(self):
-        pass
-
 class Player(pygame.sprite.Sprite):
 
     def __init__(self, image_path, tilelist):
@@ -116,6 +110,9 @@ class Player(pygame.sprite.Sprite):
         self.rect.x += self.change_x
         self.rect.y += self.change_y
 
+        print(self.jumping, self.falling)
+        print(self.frame)
+
         if not self.jumping:
             self.change_y = 3.5
             self.falling = True
@@ -132,6 +129,8 @@ class Player(pygame.sprite.Sprite):
                     self.image = self.run_rt_list[self.frame]
                 if self.frame == 4:
                     self.frame = 0
+
+
         elif keys[pygame.K_LEFT]:
             if self.rect.x >= 0:
                 self.change_x = -2
@@ -142,6 +141,7 @@ class Player(pygame.sprite.Sprite):
                     self.image = self.run_lft_list[self.frame]
                 if self.frame == 4:
                     self.frame = 0
+
         else:
             self.change_x = 0
 
@@ -323,6 +323,24 @@ class Layout:
         grey_rock_pillar_top = pg.transform.scale(grey_rock_pillar_top, (tile_size, tile_size))
         grey_rock_pillar = tile_sheet.image_at((112 + 16 * 6, 16 * 3, 16, 16), (255, 255, 255))
         grey_rock_pillar = pg.transform.scale(grey_rock_pillar, (tile_size, tile_size))
+        grass_ltop = tile_sheet.image_at((112 + 16 * 4, 16 * 4, 16, 16), (255, 255, 255))
+        grass_ltop = pg.transform.scale(grass_ltop, (tile_size, tile_size))
+        grass_l = tile_sheet.image_at((112 + 16 * 4, 16 * 5, 16, 16), (255, 255, 255))
+        grass_l = pg.transform.scale(grass_l, (tile_size, tile_size))
+        grass_lbot = tile_sheet.image_at((112 + 16 * 4, 16 * 6, 16, 16), (255, 255, 255))
+        grass_lbot = pg.transform.scale(grass_lbot, (tile_size, tile_size))
+        grass_top = tile_sheet.image_at((112 + 16 * 5, 16 * 4, 16, 16), (255, 255, 255))
+        grass_top = pg.transform.scale(grass_top, (tile_size, tile_size))
+        grass_mid = tile_sheet.image_at((112 + 16 * 5, 16 * 5, 16, 16), (255, 255, 255))
+        grass_mid = pg.transform.scale(grass_mid, (tile_size, tile_size))
+        grass_bot = tile_sheet.image_at((112 + 16 * 5, 16 * 6, 16, 16), (255, 255, 255))
+        grass_bot = pg.transform.scale(grass_bot, (tile_size, tile_size))
+        grass_rtop = tile_sheet.image_at((112 + 16 * 4, 16 * 4, 16, 16), (255, 255, 255))
+        grass_rtop = pg.transform.scale(grass_rtop, (tile_size, tile_size))
+        grass_r = tile_sheet.image_at((112 + 16 * 4, 16 * 5, 16, 16), (255, 255, 255))
+        grass_r = pg.transform.scale(grass_r, (tile_size, tile_size))
+        grass_rbot = tile_sheet.image_at((112 + 16 * 4, 16 * 6, 16, 16), (255, 255, 255))
+        grass_rbot = pg.transform.scale(grass_rbot, (tile_size, tile_size))
 
         for i, row in enumerate(level_layout):
             for j, col in enumerate(row):
@@ -491,6 +509,12 @@ class Layout:
                     img_rect.y = y_val
                     tile = (grey_rock_pillar, img_rect)
                     self.tile_list.append(tile)
+                # if col == "i":
+                #     img_rect = inside.get_rect()
+                #     img_rect.x = x_val
+                #     img_rect.y = y_val
+                #     tile = (grey_rock_pillar, img_rect)
+                #     self.tile_list.append(tile)
                 if col == "p":
                     player = Player(run_rt_list, self.tile_list)
                     player.rect.x = x_val

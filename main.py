@@ -28,17 +28,17 @@ def gameover():
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 quit()
-            if event.type == pg.KEYDOWN:
-                if event.key == pg.K_r:
-                    running = False
+            # if event.type == pg.KEYDOWN:
+            #     if event.key == pg.K_r:
+            #         running = False
 
         screen.fill(SKY)
         text = END.render(f"GAME OVER", True, RED)
         screen.blit(text, [240, 400])
-        text = SCORE.render(f"If you wish to reset,", True, WHITE)
-        screen.blit(text, [85, 600])
-        text = SCORE.render(f"press the 'r' key", True, WHITE)
-        screen.blit(text, [125, 650])
+        # text = SCORE.render(f"If you wish to reset,", True, WHITE)
+        # screen.blit(text, [85, 600])
+        # text = SCORE.render(f"press the 'r' key", True, WHITE)
+        # screen.blit(text, [125, 650])
 
         pg.display.flip()
         clock.tick(FPS)
