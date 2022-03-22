@@ -509,12 +509,60 @@ class Layout:
                     img_rect.y = y_val
                     tile = (grey_rock_pillar, img_rect)
                     self.tile_list.append(tile)
-                # if col == "i":
-                #     img_rect = inside.get_rect()
-                #     img_rect.x = x_val
-                #     img_rect.y = y_val
-                #     tile = (grey_rock_pillar, img_rect)
-                #     self.tile_list.append(tile)
+                if col == "7":
+                    img_rect = inside.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grass_ltop, img_rect)
+                    self.back_list.append(tile)
+                if col == "y":
+                    img_rect = inside.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grass_l, img_rect)
+                    self.back_list.append(tile)
+                if col == "j":
+                    img_rect = inside.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grass_lbot, img_rect)
+                    self.back_list.append(tile)
+                if col == "8":
+                    img_rect = inside.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grass_top, img_rect)
+                    self.back_list.append(tile)
+                if col == "=":
+                    img_rect = inside.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grass_mid, img_rect)
+                    self.back_list.append(tile)
+                if col == "k":
+                    img_rect = inside.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grass_bot, img_rect)
+                    self.back_list.append(tile)
+                if col == "9":
+                    img_rect = inside.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grass_rtop, img_rect)
+                    self.back_list.append(tile)
+                if col == "o":
+                    img_rect = inside.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grass_r, img_rect)
+                    self.back_list.append(tile)
+                if col == ";":
+                    img_rect = inside.get_rect()
+                    img_rect.x = x_val
+                    img_rect.y = y_val
+                    tile = (grass_r, img_rect)
+                    self.back_list.append(tile)
                 if col == "p":
                     player = Player(run_rt_list, self.tile_list)
                     player.rect.x = x_val
