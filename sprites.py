@@ -110,9 +110,6 @@ class Player(pygame.sprite.Sprite):
         self.rect.x += self.change_x
         self.rect.y += self.change_y
 
-        print(self.jumping, self.falling)
-        print(self.frame)
-
         if not self.jumping:
             self.change_y = 3.5
             self.falling = True
@@ -183,6 +180,7 @@ class Player(pygame.sprite.Sprite):
             self.change_y = 1
             self.counter = 0
             self.change_counter = 0
+
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, image_path, tile_list):
         pygame.sprite.Sprite.__init__(self)
