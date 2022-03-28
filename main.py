@@ -80,13 +80,15 @@ def play():
 
         clock.tick(FPS)
         global game_state
+        global next
 
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 quit()
             if event.type == pg.KEYDOWN:  # allow for q key to quit the game
                 if event.key == pg.K_q:
-                    quit()
+                    next = 1
+                    reset_game()
 
         screen.fill(SKY)
 
@@ -99,11 +101,18 @@ def play():
             playing = False
             reset_game()
 
+        if layout.Next_Level() == False:
+            next = 1
+            reset_game()
+
         pg.display.flip()
 
 def reset_game():
     global layout
     layout = Layout(LAYOUT, TILE_SIZE)
+    if next == 1:
+        layout = Layout(LAYOUT_2, TILE_SIZE)
+
 
 robert = True
 while robert:

@@ -255,6 +255,7 @@ class Layout:
     def __init__(self, level_layout, tile_size):
         self.tile_list = []
         self.back_list = []
+        self.end_list = []
         self.player_group = pygame.sprite.Group()
         self.enemy_group = pygame.sprite.Group()
         self.change_x = 0
@@ -513,54 +514,63 @@ class Layout:
                     img_rect.y = y_val
                     tile = (grass_ltop, img_rect)
                     self.back_list.append(tile)
+                    self.end_list.append(tile)
                 if col == "y":
                     img_rect = inside.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grass_l, img_rect)
                     self.back_list.append(tile)
+                    self.end_list.append(tile)
                 if col == "j":
                     img_rect = inside.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grass_lbot, img_rect)
                     self.back_list.append(tile)
+                    self.end_list.append(tile)
                 if col == "8":
                     img_rect = inside.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grass_top, img_rect)
                     self.back_list.append(tile)
+                    self.end_list.append(tile)
                 if col == "=":
                     img_rect = inside.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grass_mid, img_rect)
                     self.back_list.append(tile)
+                    self.end_list.append(tile)
                 if col == "k":
                     img_rect = inside.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grass_bot, img_rect)
                     self.back_list.append(tile)
+                    self.end_list.append(tile)
                 if col == "9":
                     img_rect = inside.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grass_rtop, img_rect)
                     self.back_list.append(tile)
+                    self.end_list.append(tile)
                 if col == "o":
                     img_rect = inside.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grass_r, img_rect)
                     self.back_list.append(tile)
+                    self.end_list.append(tile)
                 if col == ";":
                     img_rect = inside.get_rect()
                     img_rect.x = x_val
                     img_rect.y = y_val
                     tile = (grass_r, img_rect)
                     self.back_list.append(tile)
+                    self.end_list.append(tile)
                 if col == "p":
                     player = Player(run_rt_list, self.tile_list)
                     player.rect.x = x_val
@@ -607,7 +617,7 @@ class Layout:
             if self.player.change_x > 0:
                 self.player.change_x = 0
                 self.change_x = -2
-        if self.player.rect.x <= 100:
+        if self.player.rect.x <= 200:
             if self.player.change_x < 0:
                 self.player.change_x = 0
                 self.change_x = 2
@@ -634,3 +644,10 @@ class Layout:
         if self.player.rect.y > WIN_HEIGHT + 75:
             return False
 
+    def Next_Level(self):
+        for tile in self.end_list:
+            if tile[1].colliderect(self.player.rect.x + self.player.change_x,
+                                   self.player.rect.y,
+                                   self.player.rect.width,
+                                   self.player.rect.height):
+                return False
