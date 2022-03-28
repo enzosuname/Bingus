@@ -101,7 +101,7 @@ def play():
             playing = False
             reset_game()
 
-        if layout.Next_Level() == False:
+        elif layout.Next_Level() == False:
             next = 1
             reset_game()
 
