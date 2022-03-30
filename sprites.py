@@ -251,6 +251,9 @@ class Enemy(pygame.sprite.Sprite):
                     self.jumping = False
                     self.falling = False
 
+        if self.rect.y > WIN_HEIGHT + 75:
+            self.kill()
+
 class Layout:
     def __init__(self, level_layout, tile_size):
         self.tile_list = []
@@ -599,6 +602,7 @@ class Layout:
         self.player_group.update()
         self.enemy_group.update()
         self.camera()
+        print(self.enemy_group)
 
     def camera(self):
         self.player = self.player_group.sprites()[0]

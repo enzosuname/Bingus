@@ -3,7 +3,7 @@ import pygame.sprite
 
 import sprites
 from settings import *
-from sprites import Player, Layout
+from sprites import Player, Layout, Enemy
 
 pg.init()
 
@@ -27,6 +27,7 @@ def start():
     screen = pg.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
     clock = pg.time.Clock()
     global game_state
+    global next
     running = True
     while running:
         for event in pg.event.get():
@@ -38,11 +39,11 @@ def start():
                     running = False
 
         screen.fill(SKY)
-        text = END.render(f"PRESS", True, GREEN)
+        text = END.render(f"PRESS", True, BLACK)
         screen.blit(text, [295, 350])
-        text = END.render(f"'R'", True, GREEN)
+        text = END.render(f"'R'", True, BLACK)
         screen.blit(text, [330, 425])
-        text = END.render(f"TO START", True, GREEN)
+        text = END.render(f"TO START", True, BLACK)
         screen.blit(text, [240, 500])
 
         pg.display.flip()
@@ -52,6 +53,7 @@ def gameover():
     screen = pg.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
     clock = pg.time.Clock()
     global game_state
+    global next
     running = True
     while running:
         for event in pg.event.get():
@@ -59,16 +61,25 @@ def gameover():
                 quit()
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_r:
+                    game_state = 0
+                    running = False
+                if event.key == pg.K_ESCAPE:
+                    next = 0
                     game_state = -1
+                    reset_game()
                     running = False
 
         screen.fill(SKY)
         text = END.render(f"GAME OVER", True, RED)
         screen.blit(text, [240, 400])
         text = SCORE.render(f"If you wish to reset,", True, WHITE)
-        screen.blit(text, [85, 600])
+        screen.blit(text, [220, 600])
+        text = SCORE.render(f"press the 'Escape' key", True, WHITE)
+        screen.blit(text, [200, 650])
+        text = SCORE.render(f"If you wish to contiune,", True, WHITE)
+        screen.blit(text, [180, 495])
         text = SCORE.render(f"press the 'r' key", True, WHITE)
-        screen.blit(text, [125, 650])
+        screen.blit(text, [247, 535])
 
         pg.display.flip()
         clock.tick(FPS)
@@ -87,8 +98,11 @@ def play():
                 quit()
             if event.type == pg.KEYDOWN:  # allow for q key to quit the game
                 if event.key == pg.K_q:
-                    next = 1
+                    next = 2
                     reset_game()
+
+        # for level 3
+        enemy_group = pygame.sprite.Group
 
         screen.fill(SKY)
 
@@ -102,8 +116,10 @@ def play():
             reset_game()
 
         elif layout.Next_Level() == False:
-            next = 1
+            next += 1
             reset_game()
+
+        #if next == 3:
 
         pg.display.flip()
 
@@ -112,6 +128,8 @@ def reset_game():
     layout = Layout(LAYOUT, TILE_SIZE)
     if next == 1:
         layout = Layout(LAYOUT_2, TILE_SIZE)
+    if next == 2:
+        layout = Layout(LAYOUT_3, TILE_SIZE)
 
 
 robert = True
