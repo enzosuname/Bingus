@@ -19,7 +19,8 @@ layout = Layout(LAYOUT, TILE_SIZE)
 
 clock = pg.time.Clock()
 
-level = 0
+global next
+next = 0
 game_state = -1
 max_level = 1
 
@@ -45,6 +46,34 @@ def start():
         screen.blit(text, [330, 425])
         text = END.render(f"TO START", True, BLACK)
         screen.blit(text, [240, 500])
+
+        pg.display.flip()
+        clock.tick(FPS)
+
+def win():
+    screen = pg.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+    clock = pg.time.Clock()
+    global game_state
+    global next
+    running = True
+    while running:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                quit()
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_ESCAPE:
+                    next = 0
+                    game_state = -1
+                    reset_game()
+                    running = False
+
+        screen.fill(SKY)
+        text = END.render(f"YOU WIN!", True, GREEN)
+        screen.blit(text, [240, 400])
+        text = SCORE.render(f"If you wish to reset,", True, WHITE)
+        screen.blit(text, [220, 600])
+        text = SCORE.render(f"press the 'Escape' key", True, WHITE)
+        screen.blit(text, [200, 650])
 
         pg.display.flip()
         clock.tick(FPS)
@@ -98,11 +127,8 @@ def play():
                 quit()
             if event.type == pg.KEYDOWN:  # allow for q key to quit the game
                 if event.key == pg.K_q:
-                    next = 2
+                    next = 3
                     reset_game()
-
-        # for level 3
-        enemy_group = pygame.sprite.Group
 
         screen.fill(SKY)
 
@@ -119,7 +145,11 @@ def play():
             next += 1
             reset_game()
 
-        #if next == 3:
+        if next == 3:
+            layout.Cont()
+
+        if game_state == 2:
+            playing = False
 
         pg.display.flip()
 
@@ -130,6 +160,11 @@ def reset_game():
         layout = Layout(LAYOUT_2, TILE_SIZE)
     if next == 2:
         layout = Layout(LAYOUT_3, TILE_SIZE)
+    if next == 3:
+        layout = Layout(LAYOUT_4, TILE_SIZE)
+    if next == 4:
+        global game_state
+        game_state = 2
 
 
 robert = True
@@ -140,5 +175,7 @@ while robert:
         play()
     if game_state == 1:
         gameover()
+    if game_state == 2:
+        win()
 
 pg.quit()

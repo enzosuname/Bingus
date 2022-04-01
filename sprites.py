@@ -251,7 +251,7 @@ class Enemy(pygame.sprite.Sprite):
                     self.jumping = False
                     self.falling = False
 
-        if self.rect.y > WIN_HEIGHT + 75:
+        if self.rect.y > WIN_HEIGHT + 75 or self.rect.x < 0:
             self.kill()
 
 class Layout:
@@ -587,8 +587,6 @@ class Layout:
                 elif col == "0":
                     pass
 
-        print(self.back_list)
-
     def draw(self, display):
         for tile in self.tile_list:
             display.blit(tile[0], tile[1])
@@ -602,7 +600,6 @@ class Layout:
         self.player_group.update()
         self.enemy_group.update()
         self.camera()
-        print(self.enemy_group)
 
     def camera(self):
         self.player = self.player_group.sprites()[0]
@@ -655,3 +652,14 @@ class Layout:
                                    self.player.rect.width,
                                    self.player.rect.height):
                 return False
+
+    def Cont(self):
+        characters = SpriteSheet("images/characters.png")
+        run_enemy_list = characters.load_grid_images(1, 23, player_x, player_x_pad, 101, player_y_pad, width, height,
+                                                     -1)
+        if len(self.enemy_group) < 4:
+            enemy = Enemy(run_enemy_list, self.tile_list)
+            enemy.rect.x = 800
+            enemy.rect.y = 720
+            self.enemy_group.add(enemy)
+
