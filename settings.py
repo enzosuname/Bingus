@@ -30,6 +30,11 @@ pg.font.init()
 END = pg.font.Font('images/unifont.ttf', 80)
 SCORE = pg.font.Font('images/unifont.ttf', 40)
 
+pg.mixer.init()
+JUMP_SOUND = pg.mixer.Sound("images/Jump.wav")
+SELECT_SOUND = pg.mixer.Sound("images/Blip_Select.wav")
+LEVEL_SOUND = pg.mixer.Sound("images/Pickup_Coin.wav")
+
 LAYOUT = [
     '0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0',
     '0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0',

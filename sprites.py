@@ -171,6 +171,7 @@ class Player(pygame.sprite.Sprite):
 
         if keys[pygame.K_SPACE] and not self.jumping and not self.falling:
             self.jumping = True
+            JUMP_SOUND.play()
             self.change_y = -3
             self.change_counter = 1.5
 
@@ -651,6 +652,7 @@ class Layout:
                                    self.player.rect.y,
                                    self.player.rect.width,
                                    self.player.rect.height):
+                LEVEL_SOUND.play()
                 return False
 
     def Cont(self):

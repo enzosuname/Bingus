@@ -36,6 +36,7 @@ def start():
                 quit()
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_r:
+                    SELECT_SOUND.play()
                     game_state = 0
                     running = False
 
@@ -62,6 +63,7 @@ def win():
                 quit()
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
+                    SELECT_SOUND.play()
                     next = 0
                     game_state = -1
                     reset_game()
@@ -90,9 +92,11 @@ def gameover():
                 quit()
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_r:
+                    SELECT_SOUND.play()
                     game_state = 0
                     running = False
                 if event.key == pg.K_ESCAPE:
+                    SELECT_SOUND.play()
                     next = 0
                     game_state = -1
                     reset_game()
@@ -125,10 +129,10 @@ def play():
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 quit()
-            if event.type == pg.KEYDOWN:  # allow for q key to quit the game
-                if event.key == pg.K_q:
-                    next = 3
-                    reset_game()
+            # if event.type == pg.KEYDOWN:
+            #     if event.key == pg.K_q:
+            #         next = 3
+            #         reset_game()
 
         screen.fill(SKY)
 
