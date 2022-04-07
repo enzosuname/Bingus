@@ -80,7 +80,7 @@ class SpriteSheet:
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, image_path, tilelist):
+    def __init__(self, image_path, tilelist, level):
         pygame.sprite.Sprite.__init__(self)
 
         self.run_rt_list = image_path
@@ -89,6 +89,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.rect.width + 250
         self.rect.y = WIN_HEIGHT - 300  # - 75*2 - 26
+        self.next = level
 
         self.tile_list = tilelist
 
@@ -171,7 +172,8 @@ class Player(pygame.sprite.Sprite):
 
         if keys[pygame.K_SPACE] and not self.jumping and not self.falling:
             self.jumping = True
-            JUMP_SOUND.play()
+            if self.next != 2:
+                JUMP_SOUND.play()
             self.change_y = -3
             self.change_counter = 1.5
 
@@ -256,7 +258,7 @@ class Enemy(pygame.sprite.Sprite):
             self.kill()
 
 class Layout:
-    def __init__(self, level_layout, tile_size):
+    def __init__(self, level_layout, tile_size, level):
         self.tile_list = []
         self.back_list = []
         self.end_list = []
@@ -264,6 +266,7 @@ class Layout:
         self.enemy_group = pygame.sprite.Group()
         self.change_x = 0
         self.player = None
+        self.next = level
 
         characters = SpriteSheet("images/characters.png")
         run_rt_list = characters.load_grid_images(1, 23, player_x, player_x_pad, player_y, player_y_pad, width, height,
@@ -576,7 +579,7 @@ class Layout:
                     self.back_list.append(tile)
                     self.end_list.append(tile)
                 if col == "p":
-                    player = Player(run_rt_list, self.tile_list)
+                    player = Player(run_rt_list, self.tile_list, self.next)
                     player.rect.x = x_val
                     player.rect.y = y_val
                     self.player_group.add(player)

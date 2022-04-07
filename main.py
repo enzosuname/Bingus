@@ -14,12 +14,12 @@ pg.display.set_caption("Platformer Game")
 floor = sprites.SpriteSheet("images/sheet.png")
 
 # Groups
+global next
 
-layout = Layout(LAYOUT, TILE_SIZE)
+layout = Layout(LAYOUT, TILE_SIZE, next)
 
 clock = pg.time.Clock()
 
-global next
 next = 0
 game_state = -1
 max_level = 1
@@ -129,10 +129,10 @@ def play():
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 quit()
-            # if event.type == pg.KEYDOWN:
-            #     if event.key == pg.K_q:
-            #         next = 3
-            #         reset_game()
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_q:
+                    next += 1
+                    reset_game()
 
         screen.fill(SKY)
 
@@ -159,13 +159,14 @@ def play():
 
 def reset_game():
     global layout
-    layout = Layout(LAYOUT, TILE_SIZE)
+    global next
+    layout = Layout(LAYOUT, TILE_SIZE, next)
     if next == 1:
-        layout = Layout(LAYOUT_2, TILE_SIZE)
+        layout = Layout(LAYOUT_2, TILE_SIZE, next)
     if next == 2:
-        layout = Layout(LAYOUT_3, TILE_SIZE)
+        layout = Layout(LAYOUT_3, TILE_SIZE, next)
     if next == 3:
-        layout = Layout(LAYOUT_4, TILE_SIZE)
+        layout = Layout(LAYOUT_4, TILE_SIZE, next)
     if next == 4:
         global game_state
         game_state = 2
